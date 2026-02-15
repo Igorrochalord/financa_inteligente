@@ -1,0 +1,10 @@
+streamlit
+pymongo
+pandas
+plotly
+requests
+python-dotenv
+yfinance
+bcrypt
+beautifulsoup4
+fpdf

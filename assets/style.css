@@ -1,0 +1,22 @@
+/* Import Roboto Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Roboto', sans-serif;
+}
+
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+
+/* Metrics Styling */
+div[data-testid="stMetricValue"] {
+    font-size: 24px;
+    font-weight: bold;
+    color: #5c2e68; /* Matrix Green */
+}
+
+/* Tabs Styling */
+button[data-baseweb="tab"] {
+    font-size: 18px;
+    font-weight: 600;
+}

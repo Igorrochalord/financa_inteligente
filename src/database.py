@@ -1,23 +1,18 @@
 import os
+import certifi # Adicione esta importação
 from pymongo import MongoClient
-import dotenv
+from dotenv import load_dotenv
+
+load_dotenv()
+
 class Database:
     def __init__(self):
-        dotenv.load_dotenv()
-        self.uri = os.getenv("MONGO_URI")
-        try:
-            self.client = MongoClient(self.uri, serverSelectionTimeoutMS=5000)
-            self.db = self.client['financa_inteligente_db']
-            # Teste rápido
-            self.client.server_info()
-            print(f"✅ Conectado ao MongoDB: {self.uri}")
-        except Exception as e:
-            print(f"❌ Erro Crítico no Mongo: {e}")
-            self.db = None
+        # Usamos o certifi para garantir que o SSL encontre a autoridade certificadora
+        uri = os.getenv("MONGO_URI")
+        self.client = MongoClient(uri, tlsCAFile=certifi.where()) 
+        self.db = self.client.get_database("financa_pro")
 
-    def get_collection(self, collection_name):
-        if self.db is not None:
-            return self.db[collection_name]
-        return None
+    def get_collection(self, name):
+        return self.db.get_collection(name)
 
 db = Database()

@@ -95,6 +95,6 @@ http://localhost:8501
 
 ---
 
-**Desenvolvido por [Igor Rocha**](https://www.google.com/search?q=https://www.linkedin.com/in/igor-rocha-0bb14521a/) *Backend & DevOps Engineer | Especialista em Arquiteturas de Alta Disponibilidade*
+**Desenvolvido por [Igor Rocha**](https://www.google.com/search?q=https://www.linkedin.com/in/igor-rocha-0bb14521a/) *Backend & DevOps Engineer | Especialista em Desenvolvimento Python | Backend & DevOps Engineer*
 
 ---

@@ -36,8 +36,8 @@ def show_dashboard(user):
         st.divider()
         page = st.radio("Navegação", ["🏠 Principal", "📈 Mercado", "📰 Notícias"], label_visibility="collapsed")
         st.divider()
-        # Correção width="stretch" para 2026
-        if st.button("Sair do Sistema", type="secondary", width="stretch"):
+        # Ajuste de largura para versoes atuais do Streamlit
+        if st.button("Sair do Sistema", type="secondary", use_container_width=True):
             st.session_state['logged_in'] = False
             st.rerun()
 
@@ -87,7 +87,7 @@ def show_dashboard(user):
         # Ações Rápidas
         c_btn1, c_btn2, _ = st.columns([2, 2, 4])
         with c_btn1:
-            with st.popover("➕ Nova Renda", width="stretch"):
+            with st.popover("➕ Nova Renda"):
                 with st.form("add_inc"):
                     v = st.number_input("Valor R$", min_value=0.0)
                     d = st.text_input("Origem")
@@ -95,7 +95,7 @@ def show_dashboard(user):
                         trans_col.insert_one({'username': user['username'], 'valor': v, 'tipo': 'Receita', 'descricao': d, 'data': datetime.now()})
                         st.rerun()
         with c_btn2:
-            if st.button("📄 Gerar Relatório", type="secondary", width="stretch"):
+            if st.button("📄 Gerar Relatório", type="secondary", use_container_width=True):
                 path = generate_pdf(user, saldo_total, rec, des, stocks)
                 with open(path, "rb") as f:
                     st.download_button("Clique para Baixar", f, file_name="relatorio.pdf")
@@ -166,9 +166,9 @@ def show_dashboard(user):
         with col_r:
             with st.container(border=True):
                 s_tik = st.text_input("Visualizar Gráfico", "PETR4.SA").upper()
-                h, i = get_stock_data(s_tik, "1mo")
+                h = get_stock_data(s_tik, "1mo")
                 if h is not None:
-                    fig = go.Figure(data=[go.Candlestick(x=h.index, open=h['Open'], high=h['High'], low=h['Low'], close=h['Close'])])
+                    fig = go.Figure(data=[go.Candlestick(x=h.index, open=h['open'], high=h['high'], low=h['low'], close=h['close'])])
                     fig.update_layout(height=400, template="none", margin=dict(l=0,r=0,t=0,b=0))
                     st.plotly_chart(fig, use_container_width=True)
 
@@ -180,7 +180,7 @@ def show_dashboard(user):
             with st.container(border=True):
                 c1, c2 = st.columns([1, 4])
                 with c1: 
-                    if n.get('img'): st.image(n['img'], width="stretch")
+                    if n.get('img'): st.image(n['img'], use_container_width=True)
                 with c2:
                     logo = get_logo(n['source'])
                     if logo: st.image(logo, width=120)

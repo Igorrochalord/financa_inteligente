@@ -1,0 +1,45 @@
+name: Pipeline HML to Main
+
+on:
+  push:
+    branches: [ hml, main ]
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Dependencies
+        run: |
+          pip install ruff pytest
+          pip install -r requirements.txt
+      - name: Lint & Tests
+        run: |
+          ruff check .
+          pytest
+  deploy-hml:
+    needs: continuous-integration
+    if: github.ref == 'refs/heads/hml'
+    runs-on: ubuntu-latest
+    environment: Homologation
+    steps:
+      - name: Deploy to Staging (Render/Railway/VPS)
+        run: echo "Deploying to HML environment with MONGO_URI_HML"
+
+  deploy-production:
+    needs: continuous-integration
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: Production 
+    steps:
+      - name: Docker Build & Push (Production)
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/financa-pro:prod-latest
+      - name: Final Deploy
+        run: echo "Executing Production Action after manual approval"
